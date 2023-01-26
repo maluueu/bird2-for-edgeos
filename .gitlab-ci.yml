@@ -9,7 +9,7 @@ build:
     - cd bird-2*
     - CC=mips-linux-gnu-gcc-6 ./configure --host mips-linux --prefix /usr
     - CC=mips-linux-gnu-gcc-6 make -j 2
-    - mv {bird,birdc,birdcl} ../bird2-for-edgeos/e100/usr/sbin
+    - mv {bird,birdc,birdcl} ../e100/usr/sbin
     - cd ../bird2-for-edgeos
     - tar --exclude='.[^/]*' --owner=0 --group=0 -cvzf bird2-e100.tar.gz -C e100 .
   artifacts:
