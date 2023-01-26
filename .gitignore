@@ -1,0 +1,4 @@
+*.tar.gz
+**/sbin/bird
+**/sbin/birdc
+**/sbin/birdcl
