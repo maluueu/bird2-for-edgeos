@@ -3,7 +3,7 @@
 ## Build
 
 ```sh
-tar --strip-components 1 --owner=0 --group=0 --exclude=".*" -cvzf bird2-e100.tar.gz e100
+tar --exclude='.[^/]*' --owner=0 --group=0 -cvzf bird2-e100.tar.gz -C e100 .
 ```
 
 ## Extract
