@@ -1,18 +1,30 @@
 variables:
   BIRD2_VERSION: 2.0.10
 
-build:
-  image: registry.zotha.de/lukas/bird2-for-edgeos:stretch
+.build:
+  image: registry.zotha.de/lukas/bird2-for-edgeos:stretch-${CROSS_COMPILE_ARCH}
   script:
     - wget -qO bird2.tar.gz http://deb.debian.org/debian/pool/main/b/bird2/bird2_${BIRD2_VERSION}.orig.tar.gz
     - tar -xzf bird2.tar.gz
     - cd bird-2*
-    - CC=mips-linux-gnu-gcc-6 ./configure --host mips-linux --prefix /usr
-    - CC=mips-linux-gnu-gcc-6 make -j 2
-    - mv {bird,birdc,birdcl} ../e100/usr/sbin
+    - CC=${CROSS_COMPILE_ARCH}-linux-gnu-gcc-6 ./configure --host ${CROSS_COMPILE_ARCH}-linux --prefix /usr
+    - CC=${CROSS_COMPILE_ARCH}-linux-gnu-gcc-6 make -j 2
+    - mv {bird,birdc,birdcl} ../pkg/usr/sbin
     - cd ..
-    - tar --exclude='.[^/]*' --owner=0 --group=0 -cvzf bird2-e100.tar.gz -C e100 .
+    - tar --exclude='.[^/]*' --owner=0 --group=0 -cvzf bird-${BIRD2_VERSION}-${DEVICE}.tar.gz -C pkg .
   artifacts:
-    name: bird2-pkg
+    name: bird2-${DEVICE}-${CROSS_COMPILE_ARCH}
     paths:
-      - bird2-e100.tar.gz
+      - bird-${BIRD2_VERSION}-${DEVICE}.tar.gz
+
+build:mipsel:
+  extends: .build
+  variables:
+    CROSS_COMPILE_ARCH: mipsel
+    DEVICE: e50
+
+build:mips:
+  extends: .build
+  variables:
+    CROSS_COMPILE_ARCH: mips
+    DEVICE: e100
