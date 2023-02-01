@@ -1,19 +1,21 @@
 # BIRD2 Internet Routing Daemon for EdgeOS
 
-## Build
+## Install
 
+Download:
+- [e50 - mipsel](https://git.zotha.de/lukas/bird2-for-edgeos/-/jobs/artifacts/main/download?job=build%3Amipsel)
+- [e100 - mips](https://git.zotha.de/lukas/bird2-for-edgeos/-/jobs/artifacts/main/download?job=build%3Amips)
+
+Extract the zip file downloaded from GitLab and copy the tar.gz archive to the EdgeRouter.
+
+On the EdgeRouter run:
 ```sh
-tar --exclude='.[^/]*' --owner=0 --group=0 -cvzf bird2-e100.tar.gz -C e100 .
+sudo adduser --quiet --system --group --no-create-home --home /nonexistent bird
+sudo tar -xzf bird-2.0.10-e50.tar.gz -C /
 ```
 
-## Extract
+Since the config file at `/config/bird.conf` could contain secrets, set permissions accordingly:
 ```sh
-sudo adduser --quiet --system --group --no-create-home --home /run/bird bird
-sudo tar -xzf bird2-e100.tar.gz -C /
-```
-
-Since the config file at `/etc/bird/bird.conf` could contain secrets, set permissions accordingly:
-```sh
-sudo chown bird:bird /etc/bird/bird.conf
-sudo chmod 640 /etc/bird/bird.conf
+sudo chown bird:bird /config/bird.conf
+sudo chmod 640 /config/bird.conf
 ```
