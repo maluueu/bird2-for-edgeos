@@ -17,8 +17,6 @@ variables:
     paths:
       - bird-${BIRD2_VERSION}-${DEVICE}.tar.gz
   only:
-    refs:
-      - $CI_DEFAULT_BRANCH
     changes:
       - pkg/**/*
       - .gitlab-ci.yml
